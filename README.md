@@ -15,5 +15,8 @@ Step 3: run: `python read_excel.py`
 
 Step 4: Create category on machungdung.com
 
-Step 5: run: `node index.js`
+Step 5: update config.json
+  - username
+  - password
+Step 6: run: `node index.js`
  - This will create products automatically
