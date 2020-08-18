@@ -26,17 +26,45 @@ const data = require('./data/data.json');
 				/* filling form */
 
 				// select first category
-				// try {
-				const optionWanted = (await page.$x(`//*[@id = "id_list"]/option[text() = "${data[i].danhmuc}"]`))[0];
-				const opionValue = await (await optionWanted.getProperty('value')).jsonValue();
-				await page.select('#id_list', opionValue);
-				// } catch (err) {
-				// 	console.log(err.message);
-				// }
+				try {
+					// danhmuc1
+					await page.waitForSelector('#id_list');
+					const danhmuc1_optionWanted = (await page.$x(`//*[@id = "id_list"]/option[text() = "${data[i].danhmuc1}"]`))[0];
+					const danhmuc1_opionValue = await (await danhmuc1_optionWanted.getProperty('value')).jsonValue();
+					await page.select('#id_list', danhmuc1_opionValue);
+				} catch (err) {
+					console.log('danhmuc1: ', err.message);
+				}
+				// danhmuc2
+				try {
+					await page.waitForSelector('#id_cat option:nth-child(2)');
+					const danhmuc2_optionWanted = (await page.$x(`//*[@id = "id_cat"]/option[text() = "${data[i].danhmuc2}"]`))[0];
+					const danhmuc2_opionValue = await (await danhmuc2_optionWanted.getProperty('value')).jsonValue();
+					await page.select('#id_cat', danhmuc2_opionValue);
+				} catch (err) {
+					console.log('danhmuc2: ', err.message);
+				}
+				// danhmuc3
+				try {
+					await page.waitForSelector('#id_item option:nth-child(2)');
+					const danhmuc3_optionWanted = (await page.$x(`//*[@id = "id_item"]/option[text() = "${data[i].danhmuc3}"]`))[0];
+					const danhmuc3_opionValue = await (await danhmuc3_optionWanted.getProperty('value')).jsonValue();
+					await page.select('#id_item', danhmuc3_opionValue);
+				} catch (err) {
+					console.log('danhmuc3: ', err.message);
+				}
 
 				// uploading image
-				const uploadElement = await page.$("#file");
-				await uploadElement.uploadFile('./images/' + data[i].masp + '.jpg');
+				for ( var index = 0; index < data[i].tonganh; index++){
+          if (index == 0) {
+					  const uploadElement = await page.$("#file");
+						await uploadElement.uploadFile('./images/' + data[i].masp + '.jpg');
+					} else {
+						// upload more
+						const uploadMultiple = await page.$('[name="files[]"]');
+						await uploadMultiple.uploadFile( './images/' + data[i].masp + '_' + index + '.jpg');
+					}
+				}
 
 				await page.type('#masp', data[i].masp, { delay: 30 });
 				await page.type('#giaban', data[i].giaban, { delay: 30 });
@@ -73,7 +101,9 @@ const data = require('./data/data.json');
 		await page.goto('https://machungdung.com/admin/index.php?com=user&act=login', { waitUntil: 'networkidle0' });
 
 		/* Write in the username and password */
+		await page.waitForSelector('#username');
 		await page.type('#username', config.username, { delay: 30 });
+		await page.waitForSelector('#pass');
 		await page.type('#pass', config.password, { delay: 30 });
 
 		/* click the login button */
