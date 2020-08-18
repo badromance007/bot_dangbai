@@ -55,14 +55,21 @@ const data = require('./data/data.json');
 				}
 
 				// uploading image
+				let multiple_files = []
 				for ( var index = 0; index < data[i].tonganh; index++){
           if (index == 0) {
 					  const uploadElement = await page.$("#file");
 						await uploadElement.uploadFile('./images/' + data[i].masp + '.jpg');
 					} else {
 						// upload more
-						const uploadMultiple = await page.$('[name="files[]"]');
-						await uploadMultiple.uploadFile( './images/' + data[i].masp + '_' + index + '.jpg');
+						if (index < data[i].tonganh) {
+							multiple_files.push(( './images/' + data[i].masp + '_' + index + '.jpg'));
+						}
+
+						if (index == data[i].tonganh - 1) {
+							const uploadMultiple = await page.$('[name="files[]"]');
+							await uploadMultiple.uploadFile(...(multiple_files.reverse()));
+						}
 					}
 				}
 
