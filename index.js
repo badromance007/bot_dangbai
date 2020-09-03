@@ -2,8 +2,17 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 const config = require('./config.json');
 const cookies = require('./cookies.json');
-const data = require('./data/data.json');
+var data = require('./data/data.json');
 
+try {
+  var remember_position = require('./data/logs.json'); // try get logs
+} catch (err) {
+  console.log(err);
+}
+
+if (typeof remember_position !== 'undefined') {
+	data = data.slice(remember_position["index"]); // update data if logs exists
+}
 
 (async () => {
 	/* Start up puppeteer and create a new page */
@@ -92,7 +101,12 @@ const data = require('./data/data.json');
 				await page.type('[name="description"]', data[i].name, { delay: 30 });
 
 				/* click the create button */
-		    await page.click('.blueB');
+				await page.click('.blueB');
+
+				/* remember position */
+				let logs = JSON.stringify({"index": i+1});
+				fs.writeFileSync("data/logs.json", logs);
+				/* ===> end remember postion */
 
 				/* Wait for navigation to finish */
 		    await page.waitForNavigation({ waitUntil: 'networkidle2' });
