@@ -18,6 +18,6 @@ Step 4: Create category on machungdung.com
 Step 5: update config.json
   - username
   - password
-  
+
 Step 6: run: `node index.js`
  - This will create products automatically
