@@ -19,5 +19,6 @@ Step 5: update config.json
   - username
   - password
   
-Step 6: run: `node index.js`
+Step 6: Delete `data` folder
+Step 7: run: `node index.js`
  - This will create products automatically
