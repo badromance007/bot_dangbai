@@ -11,6 +11,7 @@ try {
 }
 
 if (typeof remember_position !== 'undefined') {
+	console.log('Remember position at: ', remember_position["index"])
 	data = data.slice(remember_position["index"]); // update data if logs exists
 }
 
@@ -104,7 +105,14 @@ if (typeof remember_position !== 'undefined') {
 				await page.click('.blueB');
 
 				/* remember position */
-				let logs = JSON.stringify({"index": i+1});
+				let logs_index = i+1;
+				if (typeof remember_position !== 'undefined') {
+					remember_position["index"] = remember_position["index"] + i+1;
+					logs_index = remember_position["index"];
+				}
+
+				console.log('logs_index = ', logs_index);
+				let logs = JSON.stringify({"index": logs_index});
 				fs.writeFileSync("data/logs.json", logs);
 				/* ===> end remember postion */
 
