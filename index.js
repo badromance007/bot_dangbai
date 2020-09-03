@@ -107,7 +107,7 @@ if (typeof remember_position !== 'undefined') {
 				/* remember position */
 				let logs_index = i+1;
 				if (typeof remember_position !== 'undefined') {
-					remember_position["index"] = remember_position["index"] + i+1;
+					remember_position["index"] = remember_position["index"] +1;
 					logs_index = remember_position["index"];
 				}
 
