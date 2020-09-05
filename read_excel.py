@@ -4,8 +4,6 @@ from glob import glob
 import os, shutil
 
 
-
-import os, shutil
 folder = 'data'
 for filename in os.listdir(folder):
     file_path = os.path.join(folder, filename)
